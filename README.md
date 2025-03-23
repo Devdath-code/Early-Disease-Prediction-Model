@@ -67,13 +67,12 @@ The model was validated using 5-fold cross-validation on a holdout test set comp
 This model is designed as a supportive tool for healthcare professionals and should not replace professional medical diagnosis. Results should be interpreted by qualified medical practitioners.
 
 Project Structure
-disease_prediction_model/  
-├── app.py              # Flask web application  
-├── model.pkl           # Trained model (to be downloaded separately)  
-├── requirements        # Required Python packages  
-├── templates/          # HTML templates for web interface  
-└── [other directories] # Additional project files  
-
+disease_prediction_model/    
+├──app.py&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Flask web application  
+├──model.pkl&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Trained model  
+├──requirements&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Required Python packages  
+├──templates/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# HTML templates for web interface    
+└──[other directories]&nbsp;&nbsp;# Additional project files    
 
 **Future Enhancements**
 
