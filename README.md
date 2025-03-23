@@ -1,6 +1,6 @@
 # Early-Disease-Prediction-Model
 
-An advanced machine learning system designed to predict early signs of diseases based on patient data and symptoms. This tool aims to assist healthcare professionals in early diagnosis and intervention.
+An advanced machine learning system designed to **predict early signs of diseases** based on patient data and symptoms. This tool aims to assist healthcare professionals in early diagnosis and intervention.
 Features
 
 Predictive analysis for multiple diseases
