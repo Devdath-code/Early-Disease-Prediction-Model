@@ -1,0 +1,2 @@
+Download the model.pkl file from Google Drive:
+https://drive.google.com/file/d/1tDdLTys9V6rWPF94wz5OPDssY7VkIpYQ/view?usp=sharing
