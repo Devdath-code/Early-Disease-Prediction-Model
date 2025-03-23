@@ -2,9 +2,23 @@ from flask import Flask, request, jsonify, render_template
 import pickle
 import pandas as pd
 import numpy as np
+import gdown
+import os
 
 app = Flask(__name__)
 
+MODEL_PATH = "model.pkl"
+FILE_ID = "1A2B3C4D5E6F7G8H9I0"
+
+if not os.path.exists(MODEL_PATH):
+    print("Downloading model...")
+    url = f"https://drive.google.com/uc?id={FILE_ID}&export=download"
+    gdown.download(url, MODEL_PATH, quiet=False)
+
+# Load the model
+with open(MODEL_PATH, "rb") as f:
+    model = pickle.load(f)
+    
 # Load the trained model
 try:
     model = pickle.load(open('model.pkl', 'rb'))

@@ -3,71 +3,515 @@
 <head>
     <title>Disease Risk Prediction</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        :root {
+            --primary-color: #8e44ad;
+            --secondary-color: #3498db;
+            --accent-color: #1abc9c;
+            --dark-bg: #0c0c0c;
+            --darker-bg: #151515;
+            --card-bg: #202020;
+            --text-primary: #f8f9fa;
+            --text-secondary: #adb5bd;
+            --border-color: #444;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+            --info-color: #3498db;
+        }
+        
         body { 
-            padding: 20px; 
-            background-color: #f8f9fa; 
+            padding: 20px;
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: radial-gradient(circle at 10% 20%, rgba(126, 52, 161, 0.1) 0%, rgba(31, 58, 147, 0.1) 100%);
+            min-height: 100vh;
         }
+        
         .prediction-form { 
-            background-color: white; 
+            background-color: var(--card-bg); 
             padding: 30px; 
-            border-radius: 10px; 
-            box-shadow: 0 0 10px rgba(0,0,0,0.1); 
+            border-radius: 15px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(5px);
+            margin-bottom: 40px;
         }
+        
         .header { 
-            background-color: #4a6fdc; 
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white; 
-            padding: 20px; 
-            border-radius: 10px; 
+            padding: 30px; 
+            border-radius: 15px; 
             margin-bottom: 30px; 
+            box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
         }
+        
         .form-section {
-            background-color: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            border-left: 4px solid #4a6fdc;
+            background-color: var(--darker-bg);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border-left: 4px solid var(--accent-color);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
+        
+        .form-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        
         .form-section h4 {
-            color: #4a6fdc;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .form-section h4 i {
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+        
+        .form-section::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 30%;
+            height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.03));
+            pointer-events: none;
+        }
+        
+        .form-control, .form-select {
+            background-color: var(--darker-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            background-color: rgba(52, 152, 219, 0.1);
+            color: var(--text-primary);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 0.25rem rgba(26, 188, 156, 0.25);
+        }
+        
+        .form-text {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            padding: 12px 40px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+        }
+        
+        label {
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        /* Colorful indicators for form sections */
+        .form-section:nth-child(1) {
+            border-left: 4px solid var(--primary-color);
+        }
+        
+        .form-section:nth-child(2) {
+            border-left: 4px solid var(--danger-color);
+        }
+        
+        .form-section:nth-child(3) {
+            border-left: 4px solid var(--warning-color);
+        }
+        
+        .form-section:nth-child(4) {
+            border-left: 4px solid var(--success-color);
+        }
+        
+        .form-section:nth-child(5) {
+            border-left: 4px solid var(--info-color);
+        }
+        
+        .form-section:nth-child(6) {
+            border-left: 4px solid #9b59b6;
+        }
+        
+        /* Header animation */
+        @keyframes gradientBG {
+            0% {background-position: 0% 50%;}
+            50% {background-position: 100% 50%;}
+            100% {background-position: 0% 50%;}
+        }
+        
+        .header {
+            background: linear-gradient(270deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+            background-size: 600% 600%;
+            animation: gradientBG 15s ease infinite;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        
+        /* Progress bar */
+        .progress-container {
+            margin-bottom: 40px;
+        }
+        
+        .progress {
+            height: 10px;
+            background-color: var(--darker-bg);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transition: width 0.5s ease;
+        }
+        
+        /* Custom radio buttons and checkboxes */
+        .custom-control {
+            margin: 10px 0;
+        }
+        
+        .risk-indicator {
+            display: flex;
+            margin-top: 25px;
+            background-color: var(--darker-bg);
+            border-radius: 10px;
+            padding: 15px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .risk-level {
+            width: 25%;
+            text-align: center;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 0 5px;
+        }
+        
+        .low-risk {
+            background-color: rgba(46, 204, 113, 0.2);
+            border: 1px solid #2ecc71;
+        }
+        
+        .moderate-risk {
+            background-color: rgba(243, 156, 18, 0.2);
+            border: 1px solid #f39c12;
+        }
+        
+        .high-risk {
+            background-color: rgba(231, 76, 60, 0.2);
+            border: 1px solid #e74c3c;
+        }
+        
+        .very-high-risk {
+            background-color: rgba(192, 57, 43, 0.2);
+            border: 1px solid #c0392b;
+        }
+        
+        /* New styles for form elements */
+        .form-floating {
             margin-bottom: 15px;
+        }
+        
+        .form-floating > .form-control,
+        .form-floating > .form-select {
+            height: calc(3.5rem + 2px);
+            padding: 1rem 0.75rem;
+        }
+        
+        .form-floating > label {
+            padding: 1rem 0.75rem;
+        }
+        
+        .card-icon {
+            font-size: 48px;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            text-shadow: 0 0 15px rgba(26, 188, 156, 0.5);
+        }
+        
+        /* Range input styling */
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            -webkit-appearance: none;
+            background: linear-gradient(90deg, var(--darker-bg), var(--accent-color));
+            border-radius: 10px;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(26, 188, 156, 0.7);
+        }
+        
+        /* Firefox range input styling */
+        input[type="range"]::-moz-range-track {
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(90deg, var(--darker-bg), var(--accent-color));
+            border-radius: 10px;
+        }
+        
+        input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(26, 188, 156, 0.7);
+            border: none;
+        }
+        
+        /* Edge and IE range input styling */
+        input[type="range"]::-ms-track {
+            width: 100%;
+            height: 8px;
+            background: transparent;
+            border-color: transparent;
+            color: transparent;
+        }
+        
+        input[type="range"]::-ms-fill-lower {
+            background: var(--darker-bg);
+            border-radius: 10px;
+        }
+        
+        input[type="range"]::-ms-fill-upper {
+            background: var(--accent-color);
+            border-radius: 10px;
+        }
+        
+        input[type="range"]::-ms-thumb {
+            width: 20px;
+            height: 20px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            cursor: pointer;
+            margin-top: 0;
+            box-shadow: 0 0 10px rgba(26, 188, 156, 0.7);
+            border: none;
+        }
+        
+        /* Bottom wave decoration */
+        .wave-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            overflow: hidden;
+            z-index: -1;
+        }
+        
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg"><path fill="%238e44ad" fill-opacity="0.1" d="M0,192L48,186.7C96,181,192,171,288,181.3C384,192,480,224,576,213.3C672,203,768,149,864,149.3C960,149,1056,203,1152,208C1248,213,1344,171,1392,149.3L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-size: cover;
+            background-repeat: no-repeat;
+            animation: wave-animation 20s linear infinite;
+        }
+        
+        .wave:nth-child(2) {
+            bottom: 0;
+            opacity: 0.5;
+            animation: wave-animation 10s linear infinite;
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg"><path fill="%233498db" fill-opacity="0.1" d="M0,160L48,149.3C96,139,192,117,288,133.3C384,149,480,203,576,218.7C672,235,768,213,864,181.3C960,149,1056,107,1152,90.7C1248,75,1344,85,1392,90.7L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+        }
+        
+        @keyframes wave-animation {
+            0% { background-position-x: 0; }
+            100% { background-position-x: 1000px; }
+        }
+        
+        /* Theme toggle switch */
+        .theme-switch-wrapper {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            z-index: 100;
+        }
+        
+        .theme-switch {
+            display: inline-block;
+            position: relative;
+            width: 60px;
+            height: 34px;
+        }
+        
+        .theme-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--darker-bg);
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: var(--accent-color);
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: var(--primary-color);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
         }
     </style>
 </head>
 <body>
+    <div class="theme-switch-wrapper">
+        <label class="theme-switch">
+            <input type="checkbox" id="themeToggle" checked>
+            <span class="slider"></span>
+        </label>
+    </div>
+
+    <div class="wave-container">
+        <div class="wave"></div>
+        <div class="wave"></div>
+    </div>
+
     <div class="container">
         <div class="header text-center">
-            <h1>Disease Risk Prediction</h1>
-            <p>Enter your health information to assess your risk for diabetes and hypertension</p>
+            <h1><i class="fas fa-heartbeat me-2"></i>Disease Risk Prediction</h1>
+            <p class="lead">Enter your health information to assess your risk for common diseases</p>
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <div class="text-end mt-2 text-secondary">
+                <small id="progress-text">0% Complete</small>
+            </div>
         </div>
         
         <div class="row">
             <div class="col-md-10 mx-auto">
                 <div class="prediction-form">
-                    <form action="/predict" method="post">
+                    <form id="predictionForm" action="/predict" method="post">
                         <!-- Personal Information Section -->
                         <div class="form-section">
-                            <h4>Personal Information</h4>
+                            <h4><i class="fas fa-user-circle"></i> Personal Information</h4>
                             <div class="row mb-3">
-                                <div class="col-md-4">
+                                <div class="col-md-4 mb-3">
                                     <label for="age" class="form-label">Age</label>
                                     <input type="number" step="1" class="form-control" id="age" name="age" required>
+                                    <div class="form-text">Your current age in years</div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-4 mb-3">
                                     <label for="gender" class="form-label">Gender</label>
                                     <select class="form-select" id="gender" name="gender" required>
+                                        <option value="" selected disabled>Select gender</option>
                                         <option value="1">Male</option>
                                         <option value="0">Female</option>
+                                        <option value="2">Other</option>
                                     </select>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-4 mb-3">
                                     <label for="ethnicity" class="form-label">Ethnicity</label>
-                                    <select class="form-select" id="ethnicity" name="ethnicity">
+                                    <select class="form-select" id="ethnicity" name="ethnicity" required>
+                                        <option value="" selected disabled hidden>Select ethnicity</option>
                                         <option value="indian">Indian</option>
                                         <option value="other_asian">Other Asian</option>
                                         <option value="caucasian">Caucasian</option>
                                         <option value="african">African</option>
+                                        <option value="hispanic">Hispanic</option>
                                         <option value="other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="occupation" class="form-label">Occupation</label>
+                                    <select class="form-select" id="occupation" name="occupation">
+                                        <option value="" selected disabled>Select occupation type</option>
+                                        <option value="sedentary">Sedentary (Office work)</option>
+                                        <option value="light_activity">Light activity</option>
+                                        <option value="moderate_activity">Moderate activity</option>
+                                        <option value="heavy_activity">Heavy activity</option>
+                                    </select>
+                                    <div class="form-text">Your typical daily activity level at work</div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="education" class="form-label">Education Level</label>
+                                    <select class="form-select" id="education" name="education">
+                                        <option value="" selected disabled>Select education level</option>
+                                        <option value="primary">Primary</option>
+                                        <option value="secondary">Secondary</option>
+                                        <option value="college">College/University</option>
+                                        <option value="postgraduate">Postgraduate</option>
                                     </select>
                                 </div>
                             </div>
@@ -75,171 +519,246 @@
                         
                         <!-- Physical Measurements Section -->
                         <div class="form-section">
-                            <h4>Physical Measurements</h4>
+                            <h4><i class="fas fa-weight"></i> Physical Measurements</h4>
                             <div class="row mb-3">
-                                <div class="col-md-3">
+                                <div class="col-md-3 mb-3">
                                     <label for="height" class="form-label">Height (cm)</label>
                                     <input type="number" step="0.1" class="form-control" id="height" name="height">
+                                    <div class="form-text">Enter your height in centimeters</div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-3 mb-3">
                                     <label for="weight" class="form-label">Weight (kg)</label>
                                     <input type="number" step="0.1" class="form-control" id="weight" name="weight">
+                                    <div class="form-text">Enter your weight in kilograms</div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-3 mb-3">
                                     <label for="bmi" class="form-label">BMI (auto-calculated)</label>
-                                    <input type="number" step="0.1" class="form-control" id="bmi" name="bmi" required>
+                                    <input type="text" class="form-control" id="bmi" name="bmi" readonly>
+                                    <div class="form-text">Body Mass Index</div>
                                 </div>
-                                <div class="col-md-3">
-                                    <label for="waist_circumference" class="form-label">Waist Circumference (cm)</label>
+                                <div class="col-md-3 mb-3">
+                                    <label for="waist_circumference" class="form-label">Waist (cm)</label>
                                     <input type="number" step="0.1" class="form-control" id="waist_circumference" name="waist_circumference">
+                                    <div class="form-text">Waist circumference</div>
                                 </div>
                             </div>
-                        </div>
-                        
-                        <!-- Blood Tests Section -->
-                        <div class="form-section">
-                            <h4>Blood Test Results</h4>
-                            <div class="row mb-3">
-                                <div class="col-md-4">
-                                    <label for="glucose" class="form-label">Fasting Glucose (mg/dL)</label>
-                                    <input type="number" step="0.1" class="form-control" id="glucose" name="glucose" required>
-                                    <div class="form-text">Normal: <100, Pre-diabetes: 100-125, Diabetes: >126</div>
+                            
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label for="hip_circumference" class="form-label">Hip Circumference (cm)</label>
+                                    <input type="number" step="0.1" class="form-control" id="hip_circumference" name="hip_circumference">
+                                    <div class="form-text">Measurement around the widest part of the hips</div>
                                 </div>
-                                <div class="col-md-4">
-                                    <label for="insulin" class="form-label">Insulin Level (μU/mL)</label>
-                                    <input type="number" step="0.1" class="form-control" id="insulin" name="insulin" required>
+                                <div class="col-md-4 mb-3">
+                                    <label for="waist_hip_ratio" class="form-label">Waist-Hip Ratio (auto-calculated)</label>
+                                    <input type="text" class="form-control" id="waist_hip_ratio" name="waist_hip_ratio" readonly>
+                                    <div class="form-text">Waist-to-hip ratio is an indicator of health risk</div>
                                 </div>
-                                <div class="col-md-4">
-                                    <label for="hba1c" class="form-label">HbA1c (%)</label>
-                                    <input type="number" step="0.1" class="form-control" id="hba1c" name="hba1c">
-                                    <div class="form-text">Normal: <5.7, Pre-diabetes: 5.7-6.4, Diabetes: >6.5</div>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-md-3">
-                                    <label for="cholesterol" class="form-label">Total Cholesterol (mg/dL)</label>
-                                    <input type="number" step="1" class="form-control" id="cholesterol" name="cholesterol">
-                                </div>
-                                <div class="col-md-3">
-                                    <label for="hdl" class="form-label">HDL (mg/dL)</label>
-                                    <input type="number" step="1" class="form-control" id="hdl" name="hdl">
-                                </div>
-                                <div class="col-md-3">
-                                    <label for="ldl" class="form-label">LDL (mg/dL)</label>
-                                    <input type="number" step="1" class="form-control" id="ldl" name="ldl">
-                                </div>
-                                <div class="col-md-3">
-                                    <label for="triglycerides" class="form-label">Triglycerides (mg/dL)</label>
-                                    <input type="number" step="1" class="form-control" id="triglycerides" name="triglycerides">
+                                <div class="col-md-4 mb-3">
+                                    <label for="neck_circumference" class="form-label">Neck Circumference (cm)</label>
+                                    <input type="number" step="0.1" class="form-control" id="neck_circumference" name="neck_circumference">
+                                    <div class="form-text">Measurement around the neck</div>
                                 </div>
                             </div>
                         </div>
                         
                         <!-- Vital Signs Section -->
                         <div class="form-section">
-                            <h4>Vital Signs</h4>
+                            <h4><i class="fas fa-heartbeat"></i> Vital Signs</h4>
                             <div class="row mb-3">
-                                <div class="col-md-4">
-                                    <label for="blood_pressure" class="form-label">Systolic Blood Pressure (mmHg)</label>
-                                    <input type="number" step="1" class="form-control" id="blood_pressure" name="blood_pressure" required>
-                                    <div class="form-text">Normal: <120, Elevated: 120-129, Stage 1: 130-139, Stage 2: ≥140</div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="systolic_bp" class="form-label">Systolic Blood Pressure (mmHg)</label>
+                                    <input type="number" class="form-control" id="systolic_bp" name="systolic_bp">
+                                    <div class="form-text">The top number in your blood pressure reading</div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-4 mb-3">
                                     <label for="diastolic_bp" class="form-label">Diastolic Blood Pressure (mmHg)</label>
-                                    <input type="number" step="1" class="form-control" id="diastolic_bp" name="diastolic_bp">
-                                    <div class="form-text">Normal: <80, Stage 1: 80-89, Stage 2: ≥90</div>
+                                    <input type="number" class="form-control" id="diastolic_bp" name="diastolic_bp">
+                                    <div class="form-text">The bottom number in your blood pressure reading</div>
                                 </div>
-                                <div class="col-md-4">
-                                    <label for="heart_rate" class="form-label">Resting Heart Rate (bpm)</label>
-                                    <input type="number" step="1" class="form-control" id="heart_rate" name="heart_rate">
+                                <div class="col-md-4 mb-3">
+                                    <label for="resting_heart_rate" class="form-label">Resting Heart Rate (bpm)</label>
+                                    <input type="number" class="form-control" id="resting_heart_rate" name="resting_heart_rate">
+                                    <div class="form-text">Your heart rate at rest</div>
                                 </div>
                             </div>
                         </div>
                         
-                        <!-- Additional Measurements Section -->
+                        <!-- Lifestyle Factors Section -->
                         <div class="form-section">
-                            <h4>Additional Measurements</h4>
+                            <h4><i class="fas fa-running"></i> Lifestyle Factors</h4>
                             <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label for="skin_thickness" class="form-label">Skin Thickness (mm)</label>
-                                    <input type="number" step="0.1" class="form-control" id="skin_thickness" name="skin_thickness" required>
+                                <div class="col-md-4 mb-3">
+                                    <label for="smoking_status" class="form-label">Smoking Status</label>
+                                    <select class="form-select" id="smoking_status" name="smoking_status">
+                                        <option value="" selected disabled>Select option</option>
+                                        <option value="never">Never smoked</option>
+                                        <option value="former">Former smoker</option>
+                                        <option value="current">Current smoker</option>
+                                    </select>
                                 </div>
-                                <div class="col-md-6">
-                                    <label for="diabetes_pedigree" class="form-label">Diabetes Pedigree Function</label>
-                                    <input type="number" step="0.01" class="form-control" id="diabetes_pedigree" name="diabetes_pedigree" required>
-                                    <div class="form-text">Measures diabetes hereditary influence (higher values indicate stronger family history)</div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="alcohol_consumption" class="form-label">Alcohol Consumption</label>
+                                    <select class="form-select" id="alcohol_consumption" name="alcohol_consumption">
+                                        <option value="" selected disabled>Select option</option>
+                                        <option value="none">None</option>
+                                        <option value="light">Light (1-2 drinks/week)</option>
+                                        <option value="moderate">Moderate (3-7 drinks/week)</option>
+                                        <option value="heavy">Heavy (>7 drinks/week)</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="exercise_level" class="form-label">Exercise Level</label>
+                                    <select class="form-select" id="exercise_level" name="exercise_level">
+                                        <option value="" selected disabled>Select option</option>
+                                        <option value="none">No regular exercise</option>
+                                        <option value="light">Light (1-2 days/week)</option>
+                                        <option value="moderate">Moderate (3-5 days/week)</option>
+                                        <option value="active">Active (6+ days/week)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="stress_level" class="form-label">Stress Level (1-10)</label>
+                                    <input type="range" class="form-range" min="1" max="10" step="1" id="stress_level" name="stress_level" value="5">
+                                    <div class="d-flex justify-content-between mt-1">
+                                        <span class="form-text">Low</span>
+                                        <span class="form-text" id="stress_value">5</span>
+                                        <span class="form-text">High</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="sleep_hours" class="form-label">Average Sleep (hours/night)</label>
+                                    <input type="range" class="form-range" min="4" max="12" step="0.5" id="sleep_hours" name="sleep_hours" value="7">
+                                    <div class="d-flex justify-content-between mt-1">
+                                        <span class="form-text">4 hours</span>
+                                        <span class="form-text" id="sleep_value">7 hours</span>
+                                        <span class="form-text">12 hours</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         
                         <!-- Medical History Section -->
                         <div class="form-section">
-                            <h4>Medical History</h4>
+                            <h4><i class="fas fa-notes-medical"></i> Medical History</h4>
                             <div class="row mb-3">
-                                <div class="col-md-4">
-                                    <label for="family_history" class="form-label">Family History of Diabetes</label>
-                                    <select class="form-select" id="family_history" name="family_history" required>
-                                        <option value="1">Yes</option>
-                                        <option value="0">No</option>
+                                <div class="col-md-12 mb-3">
+                                    <label class="form-label">Do you have any of the following conditions? (Select all that apply)</label>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="checkbox" id="diabetes" name="medical_history[]" value="diabetes">
+                                                <label class="form-check-label" for="diabetes">Diabetes</label>
+                                            </div>
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="checkbox" id="hypertension" name="medical_history[]" value="hypertension">
+                                                <label class="form-check-label" for="hypertension">Hypertension</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="checkbox" id="heart_disease" name="medical_history[]" value="heart_disease">
+                                                <label class="form-check-label" for="heart_disease">Heart Disease</label>
+                                            </div>
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="checkbox" id="stroke" name="medical_history[]" value="stroke">
+                                                <label class="form-check-label" for="stroke">Stroke</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="checkbox" id="cancer" name="medical_history[]" value="cancer">
+                                                <label class="form-check-label" for="cancer">Cancer</label>
+                                            </div>
+                                            <div class="form-check mb-2">
+                                                <input class="form-check-input" type="checkbox" id="kidney_disease" name="medical_history[]" value="kidney_disease">
+                                                <label class="form-check-label" for="kidney_disease">Kidney Disease</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="medication" class="form-label">Are you taking any medication?</label>
+                                    <select class="form-select" id="medication" name="medication">
+                                        <option value="" selected disabled>Select option</option>
+                                        <option value="no">No</option>
+                                        <option value="yes">Yes</option>
                                     </select>
                                 </div>
-                                <div class="col-md-4">
-                                    <label for="family_history_htn" class="form-label">Family History of Hypertension</label>
-                                    <select class="form-select" id="family_history_htn" name="family_history_htn">
-                                        <option value="1">Yes</option>
-                                        <option value="0">No</option>
+                                <div class="col-md-6 mb-3">
+                                    <label for="family_history" class="form-label">Family History of Disease</label>
+                                    <select class="form-select" id="family_history" name="family_history">
+                                        <option value="" selected disabled>Select option</option>
+                                        <option value="none">None</option>
+                                        <option value="diabetes">Diabetes</option>
+                                        <option value="heart_disease">Heart Disease</option>
+                                        <option value="both">Both</option>
+                                        <option value="other">Other</option>
                                     </select>
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="pregnancy" class="form-label">Pregnancies (if applicable)</label>
-                                    <input type="number" min="0" class="form-control" id="pregnancy" name="pregnancy" value="0">
                                 </div>
                             </div>
                         </div>
                         
-                        <!-- Lifestyle Section -->
+                        <!-- Submission Section -->
                         <div class="form-section">
-                            <h4>Lifestyle Factors</h4>
-                            <div class="row mb-3">
-                                <div class="col-md-3">
-                                    <label for="smoking" class="form-label">Smoking Status</label>
-                                    <select class="form-select" id="smoking" name="smoking" required>
-                                        <option value="1">Current Smoker</option>
-                                        <option value="0.5">Former Smoker</option>
-                                        <option value="0">Never Smoked</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-3">
-                                    <label for="alcohol" class="form-label">Alcohol Consumption</label>
-                                    <select class="form-select" id="alcohol" name="alcohol">
-                                        <option value="0">None</option>
-                                        <option value="0.5">Occasional (1-2 drinks/week)</option>
-                                        <option value="1">Moderate (3-7 drinks/week)</option>
-                                        <option value="2">Heavy (>7 drinks/week)</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-3">
-                                    <label for="physical_activity" class="form-label">Physical Activity</label>
-                                    <select class="form-select" id="physical_activity" name="physical_activity">
-                                        <option value="0">Sedentary</option>
-                                        <option value="1">Light (1-2 days/week)</option>
-                                        <option value="2">Moderate (3-5 days/week)</option>
-                                        <option value="3">High (6-7 days/week)</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-3">
-                                    <label for="stress_level" class="form-label">Stress Level</label>
-                                    <select class="form-select" id="stress_level" name="stress_level">
-                                        <option value="0">Low</option>
-                                        <option value="1">Moderate</option>
-                                        <option value="2">High</option>
-                                    </select>
+                            <h4><i class="fas fa-chart-pie"></i> Your Health Overview</h4>
+                            
+                            <div class="row mb-4">
+                                <div class="col-md-12 text-center">
+                                    <p>Based on the information you provide, we will calculate your risk scores for:</p>
+                                    <div class="d-flex justify-content-center gap-3 flex-wrap">
+                                        <div class="badge bg-primary p-2 fs-6"><i class="fas fa-heartbeat me-1"></i> Heart Disease</div>
+                                        <div class="badge bg-info p-2 fs-6"><i class="fas fa-tint me-1"></i> Diabetes</div>
+                                        <div class="badge bg-warning text-dark p-2 fs-6"><i class="fas fa-brain me-1"></i> Stroke</div>
+                                        <div class="badge bg-danger p-2 fs-6"><i class="fas fa-lungs me-1"></i> Hypertension</div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        
-                        <div class="text-center mt-4">
-                            <button type="submit" class="btn btn-primary btn-lg px-5">Predict Risk</button>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-12">
+                                    <div class="risk-indicator">
+                                        <div class="risk-level low-risk">
+                                            <div><i class="fas fa-check-circle fa-2x mb-2"></i></div>
+                                            <div>Low Risk</div>
+                                        </div>
+                                        <div class="risk-level moderate-risk">
+                                            <div><i class="fas fa-exclamation-circle fa-2x mb-2"></i></div>
+                                            <div>Moderate Risk</div>
+                                        </div>
+                                        <div class="risk-level high-risk">
+                                            <div><i class="fas fa-exclamation-triangle fa-2x mb-2"></i></div>
+                                            <div>High Risk</div>
+                                        </div>
+                                        <div class="risk-level very-high-risk">
+                                            <div><i class="fas fa-radiation fa-2x mb-2"></i></div>
+                                            <div>Very High Risk</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-check mb-3">
+                                        <input class="form-check-input" type="checkbox" id="consent" name="consent" required>
+                                        <label class="form-check-label" for="consent">
+                                            I consent to the processing of my health data for risk assessment purposes.
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="text-center mt-4">
+                                <button type="submit" class="btn btn-primary btn-lg px-5">
+                                    <i class="fas fa-calculator me-2"></i> Calculate My Risk
+                                </button>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -247,26 +766,121 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Auto-calculate BMI when height and weight are entered
+        // Auto-calculate BMI and other metrics when relevant inputs change
         document.addEventListener('DOMContentLoaded', function() {
             const heightInput = document.getElementById('height');
             const weightInput = document.getElementById('weight');
             const bmiInput = document.getElementById('bmi');
+            const waistInput = document.getElementById('waist_circumference');
+            const hipInput = document.getElementById('hip_circumference');
+            const ratioInput = document.getElementById('waist_hip_ratio');
+            const stressRange = document.getElementById('stress_level');
+            const stressValue = document.getElementById('stress_value');
+            const sleepRange = document.getElementById('sleep_hours');
+            const sleepValue = document.getElementById('sleep_value');
+            const progressBar = document.querySelector('.progress-bar');
+            const progressText = document.getElementById('progress-text');
+            const form = document.getElementById('predictionForm');
+            const themeToggle = document.getElementById('themeToggle');
             
+            // BMI calculation
             function calculateBMI() {
-                if (heightInput.value && weightInput.value) {
+                if (heightInput.value && weightInput.value && heightInput.value > 0) {
                     const heightInMeters = heightInput.value / 100;
                     const bmi = (weightInput.value / (heightInMeters * heightInMeters)).toFixed(1);
                     bmiInput.value = bmi;
+                } else {
+                    bmiInput.value = '';
                 }
             }
             
+            // Waist-hip ratio calculation
+            function calculateWaistHipRatio() {
+                if (waistInput.value && hipInput.value && hipInput.value > 0) {
+                    const ratio = (waistInput.value / hipInput.value).toFixed(2);
+                    ratioInput.value = ratio;
+                } else {
+                    ratioInput.value = '';
+                }
+            }
+            
+            // Update stress level display
+            function updateStressLevel() {
+                stressValue.textContent = stressRange.value;
+            }
+            
+            // Update sleep hours display
+            function updateSleepHours() {
+                sleepValue.textContent = sleepRange.value + ' hours';
+            }
+            
+            // Update form progress
+            function updateProgress() {
+                const inputs = form.querySelectorAll('input:not([readonly]), select');
+                const totalInputs = inputs.length;
+                let filledInputs = 0;
+                
+                inputs.forEach(input => {
+                    if (input.value && input.value !== '' && input.value !== 'null') {
+                        filledInputs++;
+                    }
+                });
+                
+                const progressPercentage = Math.round((filledInputs / totalInputs) * 100);
+                progressBar.style.width = progressPercentage + '%';
+                progressText.textContent = progressPercentage + '% Complete';
+                
+                // Add aria attributes for accessibility
+                progressBar.setAttribute('aria-valuenow', progressPercentage);
+            }
+            
+            // Theme toggle functionality
+            function toggleTheme() {
+                document.body.classList.toggle('light-theme');
+            }
+            
+            // Add event listeners
             heightInput.addEventListener('input', calculateBMI);
             weightInput.addEventListener('input', calculateBMI);
+            waistInput.addEventListener('input', calculateWaistHipRatio);
+            hipInput.addEventListener('input', calculateWaistHipRatio);
+            stressRange.addEventListener('input', updateStressLevel);
+            sleepRange.addEventListener('input', updateSleepHours);
+            themeToggle.addEventListener('change', toggleTheme);
+            
+            // Add input event to all form elements for progress tracking
+            form.querySelectorAll('input, select').forEach(element => {
+                element.addEventListener('input', updateProgress);
+            });
+            
+            // Initialize displays
+            updateStressLevel();
+            updateSleepHours();
+            updateProgress();
+            
+            // Form validation before submission
+            form.addEventListener('submit', function(event) {
+                let isValid = true;
+                
+                // Basic validation
+                const requiredFields = form.querySelectorAll('[required]');
+                requiredFields.forEach(field => {
+                    if (!field.value) {
+                        isValid = false;
+                        field.classList.add('is-invalid');
+                    } else {
+                        field.classList.remove('is-invalid');
+                    }
+                });
+                
+                if (!isValid) {
+                    event.preventDefault();
+                    alert('Please fill in all required fields.');
+                }
+            });
         });
     </script>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
