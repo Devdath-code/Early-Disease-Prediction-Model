@@ -2,6 +2,9 @@
 
 An advanced machine learning system designed to **predict early signs of diseases** which is **based on patient data and symptoms**. This tool aims to assist healthcare professionals in early diagnosis and intervention.
 
+# Video Prototype
+  https://drive.google.com/file/d/1SfR7Ju-S3XmiD2aQVLdwAcb1JbX6wGEC/view?usp=sharing 
+
 **Features**
 
 Predictive analysis for multiple diseases
