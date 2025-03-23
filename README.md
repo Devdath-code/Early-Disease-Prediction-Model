@@ -68,11 +68,13 @@ This model is designed as a supportive tool for healthcare professionals and sho
 Project Structure
 Copydisease_prediction_model/
 disease_prediction_model/
+disease_prediction_model/
 ├── app.py              # Flask web application
 ├── model.pkl           # Trained model (to be downloaded separately)
 ├── requirements        # Required Python packages
 ├── templates/          # HTML templates for web interface
 └── [other directories] # Additional project files
+
 
 **Future Enhancements**
 
